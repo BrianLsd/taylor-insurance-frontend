@@ -1,0 +1,45 @@
+@@include('header.htm')
+
+@@include('blocks/navigation.htm',{"quote":"active"})
+
+@@include('blocks/page-title.htm', { "page-name": "Auto / Home Quote", "title": "Get a quote" })
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-12 col-sm-12 text-center">
+            <br>
+            <form id="signup-form" class="contact__form">
+                <h3 class="text-md mb-4">Provide Your Information</h3>
+                <div class="form-group">
+                    <input name="name" id="name" type="text" class="form-control" placeholder="Your Name" required>
+                </div>
+                <div class="form-group">
+                    <input name="email" id="email" type="email" class="form-control" placeholder="Email Address" required>
+                </div>
+                <button class="btn btn-main" name="submit" type="submit">Sign up</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('signup-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    let name = document.getElementById("name").value;
+    let email = document.getElementById("email").value;
+    let userID;
+
+    fetch(`http://localhost:8080/v1/users?name=${name}&email=${email}`, {method: 'POST'}) // add the user to the DB
+    .then(response => response.text())
+    .then(data => {
+        userID = data;
+        location.href = 'quote-choice.html?userID=' + userID;
+    }) 
+    .catch(error => console.error('Error:', error))
+    });
+</script>
+
+@@include('blocks/footer.htm')
+
+@@include('footer.htm')

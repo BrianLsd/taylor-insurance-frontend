@@ -1,0 +1,97 @@
+@@include('header.htm')
+
+@@include('blocks/navigation.htm',{"quote":"active"})
+
+@@include('blocks/page-title.htm', { "page-name": "Auto / Home Quote", "title": "Get a quote" })
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-12 col-sm-12 text-center">
+            <br>
+            <h3 class="text-md mb-4">Home Quote Overview</h3>
+            <h6 id="home-quote-id"></h6>
+            <h6 id="name"></h6>
+            <h6 id="start-date"></h6>
+            <h6 id="end-date"></h6>
+            <h6 id="liability-limit"></h6>
+            <h6 id="base-premium"></h6>
+            <h6 id="contents-deductible"></h6>
+            <h6 id="contents-insurance-limit"></h6>
+            <h6 id="deductible"></h6>
+            <h6 id="tax"></h6>
+            <h6 id="total-premium"></h6>
+        </div>
+        <div class="col-lg-7 text-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <br>
+                        <br>
+                        <button id='accept' class="btn btn-main">accept</button>
+                    </div>
+                    <div class="col">
+                        <br>
+                        <br>
+                        <button id='cancel' class="btn btn-main ml-2">cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const userID = urlParams.get('userID');
+    const homeQuoteID = urlParams.get('homeQuoteID');
+    let homePolicyID;
+
+    fetch(`http://localhost:8080/v1/users/homequotes/${homeQuoteID}`)
+    .then(response => response.json())
+    .then(data => {
+        let homeQuoteID = document.getElementById("home-quote-id");
+        let name = document.getElementById("name");
+        let startDate = document.getElementById("start-date");
+        let endDate = document.getElementById("end-date");
+        let liabilityLimit = document.getElementById("liability-limit");
+        let basePremium = document.getElementById("base-premium");
+        let contentsDeductible = document.getElementById("contents-deductible");
+        let contentsInsuranceLimit = document.getElementById("contents-insurance-limit");
+        let deductible = document.getElementById("deductible");
+        let tax = document.getElementById("tax");
+        let totalPremium = document.getElementById("total-premium");
+
+        homeQuoteID.innerHTML = `Home Quote ID: ${data.id}`;
+        name.innerHTML = `Name: ${data.user.name}`;
+        startDate.innerHTML = `Start Date: ${data.startDate}`;
+        endDate.innerHTML = `End Date: ${data.endDate}`;
+        liabilityLimit.innerHTML = `Liability Limit: $${data.liabilityLimit}`;
+        basePremium.innerHTML = `Base Premium: $${data.basePremium}`;
+        contentsDeductible.innerHTML = `Contents Deductible: $${data.contentsDeductible}`;
+        contentsInsuranceLimit.innerHTML = `Contents Insurance Limit: $${data.contentsInsuranceLimit}`;
+        deductible.innerHTML = `Deductible: $${data.deductible}`;
+        tax.innerHTML = `Tax Rate: 15%`;
+        totalPremium.innerHTML = `Total Premium: $${data.totalPremium}`;
+    })
+
+    let acceptButton = document.getElementById("accept");
+    let cancelButton = document.getElementById("cancel");
+
+    acceptButton.addEventListener("click", function() {
+        fetch(`http://localhost:8080/v1/users/${userID}/homepolicies/${homeQuoteID}`, {method: 'POST'})
+        .then(response => response.text())
+        .then(data => {
+            console.log(data);
+            homePolicyID = data;
+            window.location.replace('home-policy-confirm.html?userID=' + userID + '&homePolicyID=' + homePolicyID);
+        })
+    });
+
+    cancelButton.addEventListener("click", function() {
+        location.href = `quote.html`;
+    });
+</script>
+
+@@include('blocks/footer.htm')
+
+@@include('footer.htm')

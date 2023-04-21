@@ -1,0 +1,40 @@
+@@include('header.htm')
+
+@@include('blocks/navigation.htm',{"quote":"active"})
+
+@@include('blocks/page-title.htm', { "page-name": "Auto / Home Quote", "title": "Get a quote" })
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-7 text-center">
+            <div class="section-title">
+                <h2 class="mt-3 content-title">First, are you a new user or an existing user?</h2>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-7 text-center">
+            <div class="btn-wrapper">
+            <button id='new-user' class="btn btn-main">I am a new user</button>
+            <button id='old-user' class="btn btn-main">I have a user ID</button>
+        </div>
+    </div>
+</div>
+<script>
+    let newUserButton = document.getElementById("new-user");
+    let oldUserButton = document.getElementById("old-user");
+
+    newUserButton.addEventListener("click", function() {
+        location.href = "user-signup.html";
+    });
+
+    oldUserButton.addEventListener("click", function() {
+        location.href = "user-login.html";
+    });
+</script>
+
+@@include('blocks/footer.htm')
+
+@@include('footer.htm')
