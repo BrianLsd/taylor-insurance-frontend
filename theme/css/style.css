@@ -312,6 +312,10 @@ a:focus {
   display: none;
 }
 
+.red {
+  color: red;
+}
+
 #wrapper-work {
   overflow: hidden;
   padding-top: 100px;

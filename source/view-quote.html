@@ -1,0 +1,70 @@
+@@include('header.htm')
+
+@@include('blocks/navigation.htm',{"quote":"active"})
+
+@@include('blocks/page-title.htm', { "page-name": "view quote/policy", "title": "View your quote or policy" })
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-12 col-sm-12 text-center">
+            <br>
+            <form id="view-quote-form" class="contact__form" method="post" action="index.html">
+                <h3 class="text-md mb-5">Provide Your Quote Type & ID</h3>
+                <select name="quote-type" id="quote-type" class="form-control" placeholder="Quote Type" required>
+                    <option value="home">Home</option>
+                    <option value="auto">Auto</option>
+                </select>
+                <br>
+                <div class="form-group">
+                    <input name="quote-id" id="quote-id" type="number" class="form-control" placeholder="Your Quote ID" required>
+                </div>
+                <div id="incorrect-message" class="hidden">
+                    <br>
+                    <h4 class="red">Your Quote ID is incorrect</h4>
+                    <br>
+                </div>
+                <button class="btn btn-main" name="submit" type="submit">View</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('view-quote-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const userID = urlParams.get('userID');
+
+        let type = document.getElementById("quote-type").value;
+        let quoteID = document.getElementById("quote-id").value;
+
+        if (type === "home"){
+            fetch(`http://localhost:8080/v1/users/homequotes/${quoteID}`, {method: 'GET'}) 
+            .then(response => response.text()) 
+            .then(data => {
+                const quote = JSON.parse(data);
+                if (quote === null) {
+                    document.getElementById("incorrect-message").classList.remove("hidden");
+                } else {
+                    window.location.href = `home-policy.html?userID=${userID}&homeQuoteID=${quoteID}`;
+                }
+            })
+        } else {
+            fetch(`http://localhost:8080/v1/users/autoquotes/${quoteID}`, {method: 'GET'}) 
+            .then(response => response.text()) 
+            .then(data => {
+                const quote = JSON.parse(data);
+                if (quote === null) {
+                    document.getElementById("incorrect-message").classList.remove("hidden");
+                } else {
+                    window.location.href = `auto-policy.html?userID=${userID}&autoQuoteID=${quoteID}`;
+                }
+            })
+        }
+    });
+</script>
+
+@@include('blocks/footer.htm')
+
+@@include('footer.htm')

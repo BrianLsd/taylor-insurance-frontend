@@ -8,25 +8,27 @@
     <div class="row justify-content-center">
         <div class="col-lg-6 col-md-12 col-sm-12 text-center">
             <br>
-            <h4>Thanks For Your Purchase! Please keep a note of your Policy ID for future reference</h4>
-            <br>
-            <h3 class="text-md mb-4">Home Policy Overview</h3>
-            <h6 id="home-policy-id"></h6>
+            <h3 class="text-md mb-4">Auto Policy Overview</h3>
+            <h6 id="auto-policy-id"></h6>
             <h6 id="name"></h6>
             <h6 id="start-date"></h6>
             <h6 id="end-date"></h6>
             <h6 id="liability-limit"></h6>
             <h6 id="base-premium"></h6>
-            <h6 id="contents-deductible"></h6>
-            <h6 id="contents-insurance-limit"></h6>
             <h6 id="deductible"></h6>
             <h6 id="tax"></h6>
             <h6 id="total-premium"></h6>
         </div>
-        <div class="col-lg-7 text-center">
+        <div class="col-lg-8 text-center">
             <div class="container">
+                <div id="incorrect-message" class="hidden">
+                    <br>
+                    <h4>Please renew policy within 2 months of the end date</h4>
+                    <br>
+                </div>
                 <br>
-                <button id='exit' class="btn btn-main">Exit</button>
+                <button id='renew' class="btn btn-main">Renew Policy</button>
+                <button id='cancel' class="btn btn-main">Cancel Policy</button>
             </div>
         </div>
     </div>
@@ -35,39 +37,56 @@
 <script>
     const urlParams = new URLSearchParams(window.location.search);
     const userID = urlParams.get('userID');
-    const homePolicyID = urlParams.get('homePolicyID');
+    const autoPolicyID = urlParams.get('autoPolicyID');
 
-    fetch(`http://localhost:8080/v1/users/homepolicies/${homePolicyID}`)
+    fetch(`http://localhost:8080/v1/users/autopolicies/${autoPolicyID}`)
     .then(response => response.json())
     .then(data => {
-        let homePolicyID = document.getElementById("home-policy-id");
+        let autoQuoteID = document.getElementById("auto-policy-id");
         let name = document.getElementById("name");
         let startDate = document.getElementById("start-date");
         let endDate = document.getElementById("end-date");
         let liabilityLimit = document.getElementById("liability-limit");
         let basePremium = document.getElementById("base-premium");
-        let contentsDeductible = document.getElementById("contents-deductible");
-        let contentsInsuranceLimit = document.getElementById("contents-insurance-limit");
         let deductible = document.getElementById("deductible");
         let tax = document.getElementById("tax");
         let totalPremium = document.getElementById("total-premium");
 
-        homePolicyID.innerHTML = `Home Policy ID: ${data.id}`;
+        autoQuoteID.innerHTML = `Auto Policy ID: ${data.id}`;
         name.innerHTML = `Name: ${data.user.name}`;
         startDate.innerHTML = `Start Date: ${data.startDate}`;
         endDate.innerHTML = `End Date: ${data.endDate}`;
         liabilityLimit.innerHTML = `Liability Limit: $${data.liabilityLimit}`;
         basePremium.innerHTML = `Base Premium: $${data.basePremium}`;
-        contentsDeductible.innerHTML = `Contents Deductible: $${data.contentsDeductible}`;
-        contentsInsuranceLimit.innerHTML = `Contents Insurance Limit: $${data.contentsInsuranceLimit}`;
         deductible.innerHTML = `Deductible: $${data.deductible}`;
         tax.innerHTML = `Tax Rate: 15%`;
         totalPremium.innerHTML = `Total Premium: $${data.totalPremium}`;
     })
 
-    let exitButton = document.getElementById("exit");
+    let renewButton = document.getElementById("renew");
+    let cancelButton = document.getElementById("cancel");
 
-    exitButton.addEventListener("click", function() {
+    renewButton.addEventListener("click", function() {
+        fetch(`http://localhost:8080/v1/users/${userID}/autopolicies/renew/${autoPolicyID}`, {method: 'POST'})
+        .then(response => response.text())
+        .then(data => {
+            const newAutoPolicyID = data;
+            if (newAutoPolicyID == 0){
+                document.getElementById("incorrect-message").classList.remove("hidden");
+            } else {
+                alert("Policy Renewed, Thanks for your business!");
+                location.href = `quote.html`;
+            }
+        })   
+    });
+
+    cancelButton.addEventListener("click", function() {
+        alert("Cancel a policy within the valid period may result in a penalty.");
+        fetch(`http://localhost:8080/v1/users/${userID}/autopolicies/${autoPolicyID}`, {method: 'DELETE'})
+        .then(response => response.text())
+        .then(data => {
+            alert(data);
+        })
         location.href = `quote.html`;
     });
 </script>

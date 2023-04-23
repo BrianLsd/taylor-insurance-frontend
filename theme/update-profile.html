@@ -7,7 +7,7 @@
  // GITHUB: https://github.com/themefisher/
 -->
 
-<html lang="zxx">
+<html lang="en">
 <head>
 
   <!-- ** Basic Page Needs ** -->
@@ -87,29 +87,17 @@
                   <a class="nav-link" href="about.html">About</a>
                 </li>
                 <li class="nav-item @@service"><a class="nav-link" href="service.html">Services</a></li>
-                <li class="nav-item @@project"><a class="nav-link" href="project.html">Portfolio</a></li>
-                <li class="nav-item dropdown active">
-                  <a class="nav-link dropdown-toggle" href="#" id="dropdown05" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Blog <i class="fas fa-chevron-down small"></i></a>
-                  <ul class="dropdown-menu" aria-labelledby="dropdown05">
-                    <li><a class="dropdown-item active" href="blog-grid.html">Blog Grid</a></li>
-                    <li><a class="dropdown-item activeSidebar" href="blog-sidebar.html">Blog with Sidebar</a></li>
-                    <li><a class="dropdown-item activeSingle" href="blog-single.html">Blog Single</a></li>
-      
-                    <li class="dropdown dropdown-submenu dropleft">
-                      <a class="dropdown-item dropdown-toggle" href="#!" id="dropdown0501" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sub Menu</a>
-            
-                      <ul class="dropdown-menu" aria-labelledby="dropdown0501">
-                        <li><a class="dropdown-item" href="index.html">Submenu 01</a></li>
-                        <li><a class="dropdown-item" href="index.html">Submenu 02</a></li>
-                      </ul>
-                    </li>
-                  </ul>
-                </li>
                 <li class="nav-item @@contact"><a class="nav-link" href="contact.html">Contact</a></li>
               </ul>
       
               <div class="my-2 my-md-0 ml-lg-4 text-center">
                 <a href="quote.html" class="btn btn-solid-border btn-round-full">Get a Quote</a>
+              </div>
+              <div class="my-2 my-md-0 ml-lg-4 text-center">
+                <a href="view-user-login.html" class="btn btn-solid-border btn-round-full">View Quote / Policy</a>
+              </div>
+              <div class="my-2 my-md-0 ml-lg-4 text-center">
+                <a href="edit-profile.html" class="btn btn-solid-border btn-round-full">Edit Profile</a>
               </div>
             </div>
           </nav>
@@ -125,12 +113,12 @@
     <div class="row">
       <div class="col-md-12">
         <div class="block text-center">
-          <span class="text-white">Our blog</span>
-          <h1 class="text-capitalize mb-4 text-lg">Blog articles</h1>
+          <span class="text-white">Edit Profile</span>
+          <h1 class="text-capitalize mb-4 text-lg">Update your profile</h1>
           <ul class="list-inline">
             <li class="list-inline-item"><a href="index.html" class="text-white">Home</a></li>
             <li class="list-inline-item"><span class="text-white">/</span></li>
-            <li class="list-inline-item text-white-50">Our blog</li>
+            <li class="list-inline-item text-white-50">Edit Profile</li>
           </ul>
         </div>
       </div>
@@ -138,103 +126,42 @@
   </div>
 </section>
 
-<section class="section blog-wrap bg-gray">
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-6 col-md-6 mb-5">
-				<div class="blog-item">
-					<img loading="lazy" src="images/blog/1.jpg" alt="blog" class="img-fluid rounded">
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-12 col-sm-12 text-center">
+            <br>
+            <form id="view-login-form" class="contact__form" method="post" action="index.html">
+                <h3 class="text-md mb-4">Provide new information</h3>
+                <div class="form-group">
+                    <input name="name" id="name" type="text" class="form-control" placeholder="Your name" required>
+                </div>
+                <div class="form-group">
+                    <input name="email" id="email" type="email" class="form-control" placeholder="Your email address" required>
+                </div>
+                <button class="btn btn-main" name="submit" type="submit">update</button>
+            </form>
+        </div>
+    </div>
+</div>
 
-					<div class="blog-item-content bg-white p-5">
-						<div class="blog-item-meta bg-gray pt-2 pb-1 px-3">
-							<span class="text-muted text-capitalize d-inline-block mr-3"><i class="ti-pencil-alt mr-2"></i>Creativity</span>
-							<span class="text-muted text-capitalize d-inline-block mr-3"><i class="ti-comment mr-2"></i>5 Comments</span>
-							<span class="text-black text-capitalize d-inline-block mr-3"><i class="ti-time mr-1"></i> 28th January</span>
-						</div>
+<script>
+    document.getElementById('view-login-form').addEventListener('submit', function(event) {
+        event.preventDefault();
 
-						<h3 class="mt-3 mb-3"><a href="blog-single.html">Improve design with typography?</a></h3>
-						<p class="mb-4">Non illo quas blanditiis repellendus laboriosam minima animi. Consectetur accusantium
-							pariatur repudiandae!</p>
+        const urlParams = new URLSearchParams(window.location.search);
+        const userID = urlParams.get('userID');
 
-						<a href="blog-single.html" class="btn btn-small btn-main btn-round-full">Learn More</a>
-					</div>
-				</div>
-			</div>
+        let name = document.getElementById("name").value;
+        let email = document.getElementById("email").value;
 
-			<div class="col-lg-6 col-md-6 mb-5">
-				<div class="blog-item">
-					<img loading="lazy" src="images/blog/2.jpg" alt="blog" class="img-fluid rounded">
-
-					<div class="blog-item-content bg-white p-5">
-						<div class="blog-item-meta bg-gray pt-2 pb-1 px-3">
-							<span class="text-muted text-capitalize d-inline-block mr-3"><i class="ti-pencil-alt mr-2"></i>Design</span>
-							<span class="text-muted text-capitalize d-inline-block mr-3"><i class="ti-comment mr-2"></i>5 Comments</span>
-							<span class="text-black text-capitalize d-inline-block mr-3"><i class="ti-time mr-1"></i> 28th January</span>
-						</div>
-
-						<h3 class="mt-3 mb-3"><a href="blog-single.html">Interactivity connect consumer</a></h3>
-						<p class="mb-4">Non illo quas blanditiis repellendus laboriosam minima animi. Consectetur accusantium
-							pariatur repudiandae!</p>
-
-						<a href="blog-single.html" class="btn btn-small btn-main btn-round-full">Learn More</a>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-lg-6 col-md-6 mb-5">
-				<div class="blog-item">
-					<img loading="lazy" src="images/blog/3.jpg" alt="blog" class="img-fluid rounded">
-
-					<div class="blog-item-content bg-white p-5">
-						<div class="blog-item-meta bg-gray pt-2 pb-1 px-3">
-							<span class="text-muted text-capitalize d-inline-block mr-3"><i class="ti-pencil-alt mr-2"></i>Community</span>
-							<span class="text-muted text-capitalize d-inline-block mr-3"><i class="ti-comment mr-2"></i>5 Comments</span>
-							<span class="text-black text-capitalize d-inline-block mr-3"><i class="ti-time mr-1"></i> 28th January</span>
-						</div>
-
-						<h3 class="mt-3 mb-3"><a href="blog-single.html">Marketing Strategy to bring more affect</a></h3>
-						<p class="mb-4">Non illo quas blanditiis repellendus laboriosam minima animi. Consectetur accusantium
-							pariatur repudiandae!</p>
-
-						<a href="blog-single.html" class="btn btn-small btn-main btn-round-full">Learn More</a>
-					</div>
-				</div>
-			</div>
-			<div class="col-lg-6 col-md-6 mb-5">
-				<div class="blog-item">
-					<img loading="lazy" src="images/blog/4.jpg" alt="blog" class="img-fluid rounded">
-
-					<div class="blog-item-content bg-white p-5">
-						<div class="blog-item-meta bg-gray pt-2 pb-1 px-3">
-							<span class="text-muted text-capitalize d-inline-block mr-3"><i class="ti-pencil-alt mr-2"></i>Marketing</span>
-							<span class="text-muted text-capitalize d-inline-block mr-3"><i class="ti-comment mr-2"></i>5 Comments</span>
-							<span class="text-black text-capitalize d-inline-block mr-3"><i class="ti-time mr-1"></i> 28th January</span>
-						</div>
-
-						<h3 class="mt-3 mb-3"><a href="blog-single.html">Marketing Strategy to bring more affect</a></h3>
-						<p class="mb-4">Non illo quas blanditiis repellendus laboriosam minima animi. Consectetur accusantium
-							pariatur repudiandae!</p>
-
-						<a href="blog-single.html" class="btn btn-small btn-main btn-round-full">Learn More</a>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div class="row justify-content-center mt-5">
-			<div class="col-lg-6 text-center">
-				<nav class="navigation pagination d-inline-block">
-					<div class="nav-links">
-						<a class="prev page-numbers" href="#">Prev</a>
-						<span aria-current="page" class="page-numbers current">1</span>
-						<a class="page-numbers" href="#">2</a>
-						<a class="next page-numbers" href="#">Next</a>
-					</div>
-				</nav>
-			</div>
-		</div>
-	</div>
-</section>
+        fetch(`http://localhost:8080/v1/users/${userID}?name=${name}&email=${email}`, {method: 'PUT'}) 
+        .then(response => response.text()) 
+        .then(data => {
+            alert(data);
+            window.location.href = `index.html`;
+        })
+    });
+</script>
 
 <footer class="footer section">
   <div class="container">
@@ -256,9 +183,9 @@
           <h4 class="text-capitalize mb-4">Quick Links</h4>
 
           <ul class="list-unstyled footer-menu lh-35">
+            <li><a href="index.html">Home</a></li>
             <li><a href="about.html">About</a></li>
             <li><a href="service.html">Services</a></li>
-            <li><a href="blog-grid.html">Blogs</a></li>
             <li><a href="contact.html">Contact</a></li>
           </ul>
         </div>

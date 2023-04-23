@@ -1,0 +1,70 @@
+@@include('header.htm')
+
+@@include('blocks/navigation.htm',{"quote":"active"})
+
+@@include('blocks/page-title.htm', { "page-name": "view quote/policy", "title": "View your quote or policy" })
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-12 col-sm-12 text-center">
+            <br>
+            <form id="view-policy-form" class="contact__form" method="post" action="index.html">
+                <h3 class="text-md mb-5">Provide Your Policy Type & ID</h3>
+                <select name="policy-type" id="policy-type" class="form-control" placeholder="Policy Type" required>
+                    <option value="home">Home</option>
+                    <option value="auto">Auto</option>
+                </select>
+                <br>
+                <div class="form-group">
+                    <input name="policy-id" id="policy-id" type="number" class="form-control" placeholder="Your Policy ID" required>
+                </div>
+                <div id="incorrect-message" class="hidden">
+                    <br>
+                    <h4 class="red">Your Policy ID is incorrect</h4>
+                    <br>
+                </div>
+                <button class="btn btn-main" name="submit" type="submit">View</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('view-policy-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const userID = urlParams.get('userID');
+
+        let type = document.getElementById("policy-type").value;
+        let policyID = document.getElementById("policy-id").value;
+
+        if (type === "home"){
+            fetch(`http://localhost:8080/v1/users/homepolicies/${policyID}`, {method: 'GET'}) 
+            .then(response => response.text()) 
+            .then(data => {
+                const policy = JSON.parse(data);
+                if (policy === null || policy.user.id != userID) {
+                    document.getElementById("incorrect-message").classList.remove("hidden");
+                } else {
+                    window.location.href = `edit-home-policy.html?userID=${userID}&homePolicyID=${policyID}`;
+                }
+            })
+        } else {
+            fetch(`http://localhost:8080/v1/users/autopolicies/${policyID}`, {method: 'GET'}) 
+            .then(response => response.text()) 
+            .then(data => {
+                const policy = JSON.parse(data);
+                if (policy === null || policy.user.id != userID) {
+                    document.getElementById("incorrect-message").classList.remove("hidden");
+                } else {
+                    window.location.href = `edit-auto-policy.html?userID=${userID}&autoPolicyID=${policyID}`;
+                }
+            })
+        }
+    });
+</script>
+
+@@include('blocks/footer.htm')
+
+@@include('footer.htm')

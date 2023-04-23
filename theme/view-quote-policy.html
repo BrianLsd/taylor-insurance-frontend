@@ -86,7 +86,7 @@
                 <li class="nav-item @@about">
                   <a class="nav-link" href="about.html">About</a>
                 </li>
-                <li class="nav-item active"><a class="nav-link" href="service.html">Services</a></li>
+                <li class="nav-item @@service"><a class="nav-link" href="service.html">Services</a></li>
                 <li class="nav-item @@contact"><a class="nav-link" href="contact.html">Contact</a></li>
               </ul>
       
@@ -113,12 +113,12 @@
     <div class="row">
       <div class="col-md-12">
         <div class="block text-center">
-          <span class="text-white">Our services</span>
-          <h1 class="text-capitalize mb-4 text-lg">What We Do</h1>
+          <span class="text-white">View Quote/Policy</span>
+          <h1 class="text-capitalize mb-4 text-lg">View your Quote or Policy</h1>
           <ul class="list-inline">
             <li class="list-inline-item"><a href="index.html" class="text-white">Home</a></li>
             <li class="list-inline-item"><span class="text-white">/</span></li>
-            <li class="list-inline-item text-white-50">Our services</li>
+            <li class="list-inline-item text-white-50">View Quote/Policy</li>
           </ul>
         </div>
       </div>
@@ -126,62 +126,39 @@
   </div>
 </section>
 
-<!--  Section Services Start -->
-<section class="section service border-top pb-5">
-	<div class="container">
-		<div class="row justify-content-center">
-			<div class="col-lg-7 text-center">
-				<div class="section-title">
-					<span class="h6 text-color">Our Services</span>
-					<h2 class="mt-3 content-title ">We provide a wide range of creative services </h2>
-				</div>
-			</div>
-		</div>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-7 text-center">
+            <div class="section-title">
+                <h2 class="mt-3 content-title">What would you like to view?</h2>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-7 text-center">
+            <div class="btn-wrapper">
+            <button id='quote-button' class="btn btn-main">Quote</button>
+            <button id='policy-button' class="btn btn-main">Policy</button>
+        </div>
+    </div>
+</div>
+<script>
+    let quoteButton = document.getElementById("quote-button");
+    let policyButton = document.getElementById("policy-button");
 
-		<div class="row justify-content-center">
-			<div class="col-lg-4 col-md-6 col-sm-6">
-				<div class="service-item mb-5">
-					<i class="ti-car"></i>
-					<h4 class="mb-3">Car Insurance.</h4>
-					<p>The types of auto insurance you need to have by law are: Liability Coverage, Direct Compensation, Uninsured Automobile Coverage, and Accident Benefit Coverage.</p>
-				</div>
-			</div>
+    const urlParams = new URLSearchParams(window.location.search);
+    const userID = urlParams.get('userID');
 
-			<div class="col-lg-4 col-md-6 col-sm-6">
-				<div class="service-item mb-5">
-					<i class="ti-home"></i>
-					<h4 class="mb-3">Home Insurance.</h4>
-					<p>Protect your home and belongings with coverage that suits your needs. Most insurance policies set specific limits, but we have a better way.</p>
-				</div>
-			</div>
+    quoteButton.addEventListener("click", function() {
+        location.href = 'view-quote.html?userID=' + userID;
+    });
 
-			<div class="col-lg-4 col-md-6 col-sm-6">
-				<div class="service-item mb-5">
-					<i class="ti-user"></i>
-					<h4 class="mb-3">Insurance consulting.</h4>
-					<p>Provide professional insurance consulting services. We can pick the most suitable and cost-efficient deal for you.</p>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-<!--  Section Services End -->
-
-<section class="cta-2">
-	<div class="container">
-		<div class="cta-block p-5 rounded">
-			<div class="row justify-content-center align-items-center ">
-				<div class="col-lg-7 text-center text-lg-left">
-					<span class="text-color">Taylor Insurance</span>
-					<h2 class="mt-2 text-white">Pick the right insurance provider</h2>
-				</div>
-				<div class="col-lg-4 text-center text-lg-right mt-4 mt-lg-0">
-					<a href="contact.html" class="btn btn-main btn-round-full">Contact Us</a>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
+    policyButton.addEventListener("click", function() {
+        location.href = 'view-policy.html?userID=' + userID;
+    });
+</script>
 
 <footer class="footer section">
   <div class="container">

@@ -8,8 +8,6 @@
     <div class="row justify-content-center">
         <div class="col-lg-6 col-md-12 col-sm-12 text-center">
             <br>
-            <h4>Thanks For Your Purchase! Please keep a note of your Policy ID for future reference</h4>
-            <br>
             <h3 class="text-md mb-4">Home Policy Overview</h3>
             <h6 id="home-policy-id"></h6>
             <h6 id="name"></h6>
@@ -25,8 +23,14 @@
         </div>
         <div class="col-lg-7 text-center">
             <div class="container">
+                <div id="incorrect-message" class="hidden">
+                    <br>
+                    <h4>Please renew policy within 2 months of the end date</h4>
+                    <br>
+                </div>
                 <br>
-                <button id='exit' class="btn btn-main">Exit</button>
+                <button id='renew' class="btn btn-main">Renew Policy</button>
+                <button id='cancel' class="btn btn-main">Cancel Policy</button>
             </div>
         </div>
     </div>
@@ -65,9 +69,30 @@
         totalPremium.innerHTML = `Total Premium: $${data.totalPremium}`;
     })
 
-    let exitButton = document.getElementById("exit");
+    let renewButton = document.getElementById("renew");
+    let cancelButton = document.getElementById("cancel");
 
-    exitButton.addEventListener("click", function() {
+    renewButton.addEventListener("click", function() {
+        fetch(`http://localhost:8080/v1/users/${userID}/homepolicies/renew/${homePolicyID}`, {method: 'POST'})
+        .then(response => response.text())
+        .then(data => {
+            const newHomePolicyID = data;
+            if (newHomePolicyID == 0){
+                document.getElementById("incorrect-message").classList.remove("hidden");
+            } else {
+                alert("Policy Renewed, Thanks for your business!");
+                location.href = `quote.html`;
+            }
+        })   
+    });
+
+    cancelButton.addEventListener("click", function() {
+        alert("Cancel a policy within the valid period may result in a penalty.");
+        fetch(`http://localhost:8080/v1/users/${userID}/homepolicies/${homePolicyID}`, {method: 'DELETE'})
+        .then(response => response.text())
+        .then(data => {
+            alert(data);
+        })
         location.href = `quote.html`;
     });
 </script>

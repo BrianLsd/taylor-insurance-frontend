@@ -86,7 +86,7 @@
                 <li class="nav-item @@about">
                   <a class="nav-link" href="about.html">About</a>
                 </li>
-                <li class="nav-item active"><a class="nav-link" href="service.html">Services</a></li>
+                <li class="nav-item @@service"><a class="nav-link" href="service.html">Services</a></li>
                 <li class="nav-item @@contact"><a class="nav-link" href="contact.html">Contact</a></li>
               </ul>
       
@@ -113,12 +113,12 @@
     <div class="row">
       <div class="col-md-12">
         <div class="block text-center">
-          <span class="text-white">Our services</span>
-          <h1 class="text-capitalize mb-4 text-lg">What We Do</h1>
+          <span class="text-white">Auto / Home Quote</span>
+          <h1 class="text-capitalize mb-4 text-lg">Get a quote</h1>
           <ul class="list-inline">
             <li class="list-inline-item"><a href="index.html" class="text-white">Home</a></li>
             <li class="list-inline-item"><span class="text-white">/</span></li>
-            <li class="list-inline-item text-white-50">Our services</li>
+            <li class="list-inline-item text-white-50">Auto / Home Quote</li>
           </ul>
         </div>
       </div>
@@ -126,62 +126,92 @@
   </div>
 </section>
 
-<!--  Section Services Start -->
-<section class="section service border-top pb-5">
-	<div class="container">
-		<div class="row justify-content-center">
-			<div class="col-lg-7 text-center">
-				<div class="section-title">
-					<span class="h6 text-color">Our Services</span>
-					<h2 class="mt-3 content-title ">We provide a wide range of creative services </h2>
-				</div>
-			</div>
-		</div>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-12 col-sm-12 text-center">
+            <br>
+            <h3 class="text-md mb-4">Auto Policy Overview</h3>
+            <h6 id="auto-policy-id"></h6>
+            <h6 id="name"></h6>
+            <h6 id="start-date"></h6>
+            <h6 id="end-date"></h6>
+            <h6 id="liability-limit"></h6>
+            <h6 id="base-premium"></h6>
+            <h6 id="deductible"></h6>
+            <h6 id="tax"></h6>
+            <h6 id="total-premium"></h6>
+        </div>
+        <div class="col-lg-8 text-center">
+            <div class="container">
+                <div id="incorrect-message" class="hidden">
+                    <br>
+                    <h4>Please renew policy within 2 months of the end date</h4>
+                    <br>
+                </div>
+                <br>
+                <button id='renew' class="btn btn-main">Renew Policy</button>
+                <button id='cancel' class="btn btn-main">Cancel Policy</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-		<div class="row justify-content-center">
-			<div class="col-lg-4 col-md-6 col-sm-6">
-				<div class="service-item mb-5">
-					<i class="ti-car"></i>
-					<h4 class="mb-3">Car Insurance.</h4>
-					<p>The types of auto insurance you need to have by law are: Liability Coverage, Direct Compensation, Uninsured Automobile Coverage, and Accident Benefit Coverage.</p>
-				</div>
-			</div>
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const userID = urlParams.get('userID');
+    const autoPolicyID = urlParams.get('autoPolicyID');
 
-			<div class="col-lg-4 col-md-6 col-sm-6">
-				<div class="service-item mb-5">
-					<i class="ti-home"></i>
-					<h4 class="mb-3">Home Insurance.</h4>
-					<p>Protect your home and belongings with coverage that suits your needs. Most insurance policies set specific limits, but we have a better way.</p>
-				</div>
-			</div>
+    fetch(`http://localhost:8080/v1/users/autopolicies/${autoPolicyID}`)
+    .then(response => response.json())
+    .then(data => {
+        let autoQuoteID = document.getElementById("auto-policy-id");
+        let name = document.getElementById("name");
+        let startDate = document.getElementById("start-date");
+        let endDate = document.getElementById("end-date");
+        let liabilityLimit = document.getElementById("liability-limit");
+        let basePremium = document.getElementById("base-premium");
+        let deductible = document.getElementById("deductible");
+        let tax = document.getElementById("tax");
+        let totalPremium = document.getElementById("total-premium");
 
-			<div class="col-lg-4 col-md-6 col-sm-6">
-				<div class="service-item mb-5">
-					<i class="ti-user"></i>
-					<h4 class="mb-3">Insurance consulting.</h4>
-					<p>Provide professional insurance consulting services. We can pick the most suitable and cost-efficient deal for you.</p>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-<!--  Section Services End -->
+        autoQuoteID.innerHTML = `Auto Policy ID: ${data.id}`;
+        name.innerHTML = `Name: ${data.user.name}`;
+        startDate.innerHTML = `Start Date: ${data.startDate}`;
+        endDate.innerHTML = `End Date: ${data.endDate}`;
+        liabilityLimit.innerHTML = `Liability Limit: $${data.liabilityLimit}`;
+        basePremium.innerHTML = `Base Premium: $${data.basePremium}`;
+        deductible.innerHTML = `Deductible: $${data.deductible}`;
+        tax.innerHTML = `Tax Rate: 15%`;
+        totalPremium.innerHTML = `Total Premium: $${data.totalPremium}`;
+    })
 
-<section class="cta-2">
-	<div class="container">
-		<div class="cta-block p-5 rounded">
-			<div class="row justify-content-center align-items-center ">
-				<div class="col-lg-7 text-center text-lg-left">
-					<span class="text-color">Taylor Insurance</span>
-					<h2 class="mt-2 text-white">Pick the right insurance provider</h2>
-				</div>
-				<div class="col-lg-4 text-center text-lg-right mt-4 mt-lg-0">
-					<a href="contact.html" class="btn btn-main btn-round-full">Contact Us</a>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
+    let renewButton = document.getElementById("renew");
+    let cancelButton = document.getElementById("cancel");
+
+    renewButton.addEventListener("click", function() {
+        fetch(`http://localhost:8080/v1/users/${userID}/autopolicies/renew/${autoPolicyID}`, {method: 'POST'})
+        .then(response => response.text())
+        .then(data => {
+            const newAutoPolicyID = data;
+            if (newAutoPolicyID == 0){
+                document.getElementById("incorrect-message").classList.remove("hidden");
+            } else {
+                alert("Policy Renewed, Thanks for your business!");
+                location.href = `quote.html`;
+            }
+        })   
+    });
+
+    cancelButton.addEventListener("click", function() {
+        alert("Cancel a policy within the valid period may result in a penalty.");
+        fetch(`http://localhost:8080/v1/users/${userID}/autopolicies/${autoPolicyID}`, {method: 'DELETE'})
+        .then(response => response.text())
+        .then(data => {
+            alert(data);
+        })
+        location.href = `quote.html`;
+    });
+</script>
 
 <footer class="footer section">
   <div class="container">

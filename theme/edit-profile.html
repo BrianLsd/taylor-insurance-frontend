@@ -86,7 +86,7 @@
                 <li class="nav-item @@about">
                   <a class="nav-link" href="about.html">About</a>
                 </li>
-                <li class="nav-item active"><a class="nav-link" href="service.html">Services</a></li>
+                <li class="nav-item @@service"><a class="nav-link" href="service.html">Services</a></li>
                 <li class="nav-item @@contact"><a class="nav-link" href="contact.html">Contact</a></li>
               </ul>
       
@@ -113,12 +113,12 @@
     <div class="row">
       <div class="col-md-12">
         <div class="block text-center">
-          <span class="text-white">Our services</span>
-          <h1 class="text-capitalize mb-4 text-lg">What We Do</h1>
+          <span class="text-white">Edit Profile</span>
+          <h1 class="text-capitalize mb-4 text-lg">Update your profile</h1>
           <ul class="list-inline">
             <li class="list-inline-item"><a href="index.html" class="text-white">Home</a></li>
             <li class="list-inline-item"><span class="text-white">/</span></li>
-            <li class="list-inline-item text-white-50">Our services</li>
+            <li class="list-inline-item text-white-50">Edit Profile</li>
           </ul>
         </div>
       </div>
@@ -126,62 +126,53 @@
   </div>
 </section>
 
-<!--  Section Services Start -->
-<section class="section service border-top pb-5">
-	<div class="container">
-		<div class="row justify-content-center">
-			<div class="col-lg-7 text-center">
-				<div class="section-title">
-					<span class="h6 text-color">Our Services</span>
-					<h2 class="mt-3 content-title ">We provide a wide range of creative services </h2>
-				</div>
-			</div>
-		</div>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-12 col-sm-12 text-center">
+            <br>
+            <form id="view-login-form" class="contact__form" method="post" action="index.html">
+                <h3 class="text-md mb-4">Enter Your User ID and Email to log in</h3>
+                <div class="form-group">
+                    <input name="user-id" id="user-id" type="number" class="form-control" placeholder="Your User ID" required>
+                </div>
+                <div class="form-group">
+                    <input name="email" id="email" type="email" class="form-control" placeholder="Your email address" required>
+                </div>
+                <div id="incorrect-message" class="hidden">
+                    <br>
+                    <h4 class="red">Your user ID or email address is incorrect</h4>
+                    <br>
+                </div>
+                <button class="btn btn-main" name="submit" type="submit">login</button>
+            </form>
+        </div>
+    </div>
+</div>
 
-		<div class="row justify-content-center">
-			<div class="col-lg-4 col-md-6 col-sm-6">
-				<div class="service-item mb-5">
-					<i class="ti-car"></i>
-					<h4 class="mb-3">Car Insurance.</h4>
-					<p>The types of auto insurance you need to have by law are: Liability Coverage, Direct Compensation, Uninsured Automobile Coverage, and Accident Benefit Coverage.</p>
-				</div>
-			</div>
+<script>
+    document.getElementById('view-login-form').addEventListener('submit', function(event) {
+        event.preventDefault();
 
-			<div class="col-lg-4 col-md-6 col-sm-6">
-				<div class="service-item mb-5">
-					<i class="ti-home"></i>
-					<h4 class="mb-3">Home Insurance.</h4>
-					<p>Protect your home and belongings with coverage that suits your needs. Most insurance policies set specific limits, but we have a better way.</p>
-				</div>
-			</div>
+        let userID = document.getElementById("user-id").value;
+        let email = document.getElementById("email").value;
 
-			<div class="col-lg-4 col-md-6 col-sm-6">
-				<div class="service-item mb-5">
-					<i class="ti-user"></i>
-					<h4 class="mb-3">Insurance consulting.</h4>
-					<p>Provide professional insurance consulting services. We can pick the most suitable and cost-efficient deal for you.</p>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-<!--  Section Services End -->
-
-<section class="cta-2">
-	<div class="container">
-		<div class="cta-block p-5 rounded">
-			<div class="row justify-content-center align-items-center ">
-				<div class="col-lg-7 text-center text-lg-left">
-					<span class="text-color">Taylor Insurance</span>
-					<h2 class="mt-2 text-white">Pick the right insurance provider</h2>
-				</div>
-				<div class="col-lg-4 text-center text-lg-right mt-4 mt-lg-0">
-					<a href="contact.html" class="btn btn-main btn-round-full">Contact Us</a>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
+        fetch(`http://localhost:8080/v1/users/${userID}`, {method: 'GET'}) 
+        .then(response => response.text()) 
+        .then(data => {
+            const userInfo = JSON.parse(data);
+            if (userInfo === null) {
+                document.getElementById("incorrect-message").classList.remove("hidden");
+            } else {
+                console.log(userInfo);
+                if (userInfo.email === email){
+                    window.location.href = `update-profile.html?userID=${userID}`;
+                } else {
+                    document.getElementById("incorrect-message").classList.remove("hidden");
+                }
+            }
+        })
+    });
+</script>
 
 <footer class="footer section">
   <div class="container">
