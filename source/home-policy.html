@@ -32,7 +32,12 @@
                     <div class="col">
                         <br>
                         <br>
-                        <button id='cancel' class="btn btn-main ml-2">cancel</button>
+                        <button id='cancel' class="btn btn-main">cancel</button>
+                    </div>
+                    <div class="col">
+                        <br>
+                        <br>
+                        <button id='exit' class="btn btn-main">Exit</button>
                     </div>
                 </div>
             </div>
@@ -44,6 +49,7 @@
     const urlParams = new URLSearchParams(window.location.search);
     const userID = urlParams.get('userID');
     const homeQuoteID = urlParams.get('homeQuoteID');
+    let homeowner;
     let homePolicyID;
 
     fetch(`http://localhost:8080/v1/users/homequotes/${homeQuoteID}`)
@@ -72,10 +78,11 @@
         deductible.innerHTML = `Deductible: $${data.deductible}`;
         tax.innerHTML = `Tax Rate: 15%`;
         totalPremium.innerHTML = `Total Premium: $${data.totalPremium}`;
-    })
+    });
 
     let acceptButton = document.getElementById("accept");
     let cancelButton = document.getElementById("cancel");
+    let exitButton = document.getElementById("exit");
 
     acceptButton.addEventListener("click", function() {
         fetch(`http://localhost:8080/v1/users/${userID}/homepolicies/${homeQuoteID}`, {method: 'POST'})
@@ -88,8 +95,25 @@
     });
 
     cancelButton.addEventListener("click", function() {
-        location.href = `quote.html`;
+        fetch(`http://localhost:8080/v1/users/${userID}/homequotes/${homeQuoteID}`, {method: 'DELETE'})
+        .then(response => response.text())
+        .then(data => {
+            return fetch(`http://localhost:8080/v1/users/${userID}/homeowners`, {method: 'GET'})
+        })
+        .then(response => response.text())
+        .then(data => {
+            homeowner = JSON.parse(data);
+            console.log(homeowner[0].id);
+            return fetch(`http://localhost:8080/v1/users/${userID}/homeowners/${homeowner[0].id}`, {method: 'DELETE'})
+        })
+        .then(response => response.text());
+        alert("Home Quote has been cancelled");
     });
+
+    exitButton.addEventListener("click", function() {
+        window.location.replace('quote.html');
+    });
+            
 </script>
 
 @@include('blocks/footer.htm')

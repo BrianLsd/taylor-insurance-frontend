@@ -202,7 +202,6 @@
     .then(response => response.text())  // create homeowner
     .then(data => {
         return fetch(`http://localhost:8080/v1/users/${userID}/homes?dateBuilt=${dateBuilt}&value=${value}&dwellingType=${dwellingType}&heatingType=${heatingType}&location=${location}`, {method: 'POST'})
-
     })
     .then(response => response.text())  // create home
     .then(data => {
@@ -214,7 +213,7 @@
         homeQuoteID = data;
         window.location.replace('home-policy.html?userID=' + userID + '&homeQuoteID=' + homeQuoteID);
     })
-    .catch(error => console.error('Error:', error)) // need some validation here
+    .catch(error => console.error('Error:', error)) 
 });
 </script>
 

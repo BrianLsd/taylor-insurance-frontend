@@ -49,7 +49,7 @@
                 } else {
                     window.location.href = `home-policy.html?userID=${userID}&homeQuoteID=${quoteID}`;
                 }
-            })
+            });
         } else {
             fetch(`http://localhost:8080/v1/users/autoquotes/${quoteID}`, {method: 'GET'}) 
             .then(response => response.text()) 
@@ -60,7 +60,7 @@
                 } else {
                     window.location.href = `auto-policy.html?userID=${userID}&autoQuoteID=${quoteID}`;
                 }
-            })
+            });
         }
     });
 </script>

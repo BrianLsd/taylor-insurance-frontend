@@ -30,7 +30,12 @@
                     <div class="col">
                         <br>
                         <br>
-                        <button id='cancel' class="btn btn-main ml-2">cancel</button>
+                        <button id='cancel' class="btn btn-main">cancel</button>
+                    </div>
+                    <div class="col">
+                        <br>
+                        <br>
+                        <button id='exit' class="btn btn-main">Exit</button>
                     </div>
                 </div>
             </div>
@@ -42,6 +47,7 @@
     const urlParams = new URLSearchParams(window.location.search);
     const userID = urlParams.get('userID');
     const autoQuoteID = urlParams.get('autoQuoteID');
+    let driver;
     let autoPolicyID;
 
     fetch(`http://localhost:8080/v1/users/autoquotes/${autoQuoteID}`)
@@ -70,6 +76,7 @@
 
     let acceptButton = document.getElementById("accept");
     let cancelButton = document.getElementById("cancel");
+    let exitButton = document.getElementById("exit");
 
     acceptButton.addEventListener("click", function() {
         fetch(`http://localhost:8080/v1/users/${userID}/autopolicies/${autoQuoteID}`, {method: 'POST'})
@@ -82,7 +89,23 @@
     });
 
     cancelButton.addEventListener("click", function() {
-        location.href = `quote.html`;
+        fetch(`http://localhost:8080/v1/users/${userID}/autoquotes/${autoQuoteID}`, {method: 'DELETE'})
+        .then(response => response.text())
+        .then(data => {
+            return fetch(`http://localhost:8080/v1/users/${userID}/drivers`, {method: 'GET'})
+        })
+        .then(response => response.text())
+        .then(data => {
+            driver = JSON.parse(data);
+            console.log(driver[0].id);
+            return fetch(`http://localhost:8080/v1/users/${userID}/drivers/${driver[0].id}`, {method: 'DELETE'})
+        })
+        .then(response => response.text());
+        alert("Auto Quote has been cancelled");
+    });
+
+    exitButton.addEventListener("click", function() {
+        window.location.replace('quote.html');
     });
 </script>
 
